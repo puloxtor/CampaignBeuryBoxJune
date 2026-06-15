@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COBACCO — Лятна Кампания Beauty Box</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #090909;
+    --white: #f5f2ee;
+    --gold: #c9a84c;
+    --gold-dim: rgba(201,168,76,0.15);
+    --green: #4cac72;
+    --red: #c94c4c;
+    --grey: #5e5a55;
+    --border: rgba(201,168,76,0.2);
+    --surface: rgba(255,255,255,0.03);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    padding: 0;
+  }
+
+  /* NAV TABS */
+  .tabs {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #0d0d0d;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+
+  .tab {
+    flex-shrink: 0;
+    padding: 14px 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--grey);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .tab:hover { color: var(--white); }
+
+  /* SECTIONS */
+  .section { display: none; padding: 28px 20px; max-width: 780px; margin: 0 auto; }
+  .section.active { display: block; }
+
+  /* HEADER BLOCK */
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 5px;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .brand span {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--grey);
+    font-weight: 400;
+    margin-top: 3px;
+    text-transform: uppercase;
+  }
+
+  .badge {
+    background: var(--gold-dim);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 6px 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 1px;
+  }
+
+  /* SECTION TITLE */
+  .s-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 5px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    margin-top: 28px;
+  }
+  .s-title:first-child { margin-top: 0; }
+
+  /* EMAIL CARD */
+  .email-card {
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .email-meta {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    background: rgba(201,168,76,0.05);
+  }
+
+  .email-meta-row {
+    display: contents;
+  }
+
+  .meta-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--grey);
+    padding: 8px 14px;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    white-space: nowrap;
+  }
+
+  .meta-value {
+    font-size: 12px;
+    color: var(--white);
+    padding: 8px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .meta-value.subject { color: var(--gold); font-weight: 500; font-size: 13px; }
+
+  .email-body {
+    padding: 20px;
+    font-size: 13px;
+    line-height: 1.8;
+    color: #ccc9c4;
+    white-space: pre-wrap;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .email-body strong { color: var(--white); }
+  .email-body .cta-line {
+    display: inline-block;
+    margin: 12px 0;
+    background: var(--gold);
+    color: #000;
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 1px;
+    border-radius: 2px;
+  }
+
+  .email-note {
+    background: rgba(76,172,114,0.08);
+    border-top: 1px solid rgba(76,172,114,0.2);
+    padding: 10px 14px;
+    font-size: 11px;
+    color: var(--green);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* AD COPY CARDS */
+  .ad-card {
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .ad-header {
+    background: rgba(201,168,76,0.06);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .ad-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .ad-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.06);
+    color: var(--grey);
+  }
+
+  .ad-field {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .ad-field:last-child { border-bottom: none; }
+
+  .field-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 5px;
+  }
+
+  .field-value {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--white);
+  }
+
+  .field-value.primary { font-size: 14px; color: #e0dcd6; }
+  .field-value.headline { font-size: 16px; font-weight: 600; color: var(--white); }
+  .field-value.cta-val { color: var(--gold); font-weight: 600; font-family: 'DM Mono', monospace; }
+
+  /* CAROUSEL CARDS */
+  .carousel-wrap {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  .carousel-card {
+    flex-shrink: 0;
+    width: 160px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .cc-num {
+    background: var(--gold-dim);
+    padding: 8px 12px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cc-body {
+    padding: 10px 12px;
+  }
+
+  .cc-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 3px;
+  }
+
+  .cc-text {
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .cc-sub {
+    font-size: 11px;
+    color: var(--grey);
+    font-style: italic;
+  }
+
+  /* CREATIVE BRIEF CARDS */
+  .creative-card {
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .creative-header {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .creative-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--gold);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .creative-info { flex: 1; }
+
+  .creative-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+
+  .creative-type {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--grey);
+  }
+
+  .creative-body {
+    padding: 14px 16px;
+  }
+
+  .creative-row {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 8px;
+    margin-bottom: 10px;
+    align-items: start;
+  }
+
+  .cr-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--grey);
+    padding-top: 1px;
+  }
+
+  .cr-value {
+    font-size: 12px;
+    line-height: 1.6;
+    color: #d0ccc7;
+  }
+
+  .hook-box {
+    background: rgba(201,168,76,0.07);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 10px 12px;
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--gold);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+    padding-left: 28px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .tl-item {
+    position: relative;
+    margin-bottom: 16px;
+  }
+
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -24px;
+    top: 5px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid var(--black);
+    box-shadow: 0 0 0 1px var(--gold);
+  }
+
+  .tl-day {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+
+  .tl-actions {
+    font-size: 12px;
+    color: #c0bbb5;
+    line-height: 1.7;
+  }
+
+  /* INFO BOX */
+  .info-box {
+    background: rgba(201,168,76,0.05);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: var(--grey);
+    line-height: 1.7;
+    font-family: 'DM Mono', monospace;
+  }
+  .info-box strong { color: var(--gold); }
+
+  /* COPY BUTTON */
+  .copy-btn {
+    float: right;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--grey);
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    border-radius: 2px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    margin-top: -2px;
+  }
+  .copy-btn:hover { color: var(--gold); border-color: var(--gold); }
+  .copy-btn.copied { color: var(--green); border-color: var(--green); }
+</style>
+</head>
+<body>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="showTab('overview')">Обзор</div>
+  <div class="tab" onclick="showTab('emails')">📧 Имейли</div>
+  <div class="tab" onclick="showTab('meta')">📱 Meta Copy</div>
+  <div class="tab" onclick="showTab('creatives')">🎨 Криейтиви</div>
+  <div class="tab" onclick="showTab('timeline')">📅 Timeline</div>
+</div>
+
+<!-- ============ OVERVIEW ============ -->
+<div class="section active" id="overview">
+  <div class="page-header">
+    <div class="brand">COBACCO<span>Лятна кампания — Beauty Box</span></div>
+    <div class="badge">ROUTINE20 · 20% OFF · 15–22 ЮНИ</div>
+  </div>
+
+  <div class="info-box">
+    <strong>✅ DISCOUNT КОД АКТИВЕН:</strong> ROUTINE20 · 20% отстъпка · Активен от 15 юни до 22 юни 23:59 · Създаден в Shopify
+  </div>
+
+  <div class="s-title">Финансова рамка</div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:28px;">
+    <div style="border:1px solid var(--border);border-radius:3px;padding:14px 16px;">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin-bottom:6px;">Floor Cost (4 продукта)</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--white);">€12.80</div>
+    </div>
+    <div style="border:1px solid var(--border);border-radius:3px;padding:14px 16px;">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin-bottom:6px;">Промо цена</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gold);">€47.99</div>
+    </div>
+    <div style="border:1px solid var(--border);border-radius:3px;padding:14px 16px;">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin-bottom:6px;">Над Floor</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--green);">€35.19</div>
+    </div>
+    <div style="border:1px solid var(--border);border-radius:3px;padding:14px 16px;">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin-bottom:6px;">Печалба при CPO €15</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--green);">€20.19</div>
+    </div>
+  </div>
+
+  <div class="s-title">Кампания в числа</div>
+  <div style="border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-bottom:28px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid var(--border);">
+      <div style="padding:12px 14px;border-right:1px solid var(--border);">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--grey);margin-bottom:4px;">Канали</div>
+        <div style="font-size:13px;color:var(--white);">Имейл + Meta</div>
+      </div>
+      <div style="padding:12px 14px;border-right:1px solid var(--border);">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--grey);margin-bottom:4px;">Период</div>
+        <div style="font-size:13px;color:var(--white);">7 дни</div>
+      </div>
+      <div style="padding:12px 14px;">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--grey);margin-bottom:4px;">Таргет</div>
+        <div style="font-size:13px;color:var(--white);">SPF купувачи</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;">
+      <div style="padding:12px 14px;border-right:1px solid var(--border);">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--grey);margin-bottom:4px;">Meta бюджет</div>
+        <div style="font-size:13px;color:var(--white);">€5–10/ден</div>
+      </div>
+      <div style="padding:12px 14px;border-right:1px solid var(--border);">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--grey);margin-bottom:4px;">Очаквани поръчки</div>
+        <div style="font-size:13px;color:var(--green);">8–12</div>
+      </div>
+      <div style="padding:12px 14px;">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--grey);margin-bottom:4px;">Очакван приход</div>
+        <div style="font-size:13px;color:var(--green);">€384–576</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="s-title">Ключово послание</div>
+  <div style="border:1px solid rgba(201,168,76,0.4);border-radius:3px;padding:20px;background:rgba(201,168,76,0.04);margin-bottom:12px;">
+    <div style="font-size:18px;font-weight:600;color:var(--white);line-height:1.5;margin-bottom:8px;">"Вече пазиш кожата си от слънцето.<br>Сега дай й всичко останало."</div>
+    <div style="font-size:11px;color:var(--grey);font-family:'DM Mono',monospace;letter-spacing:1px;">ГЛАВНА ИДЕЯ НА КАМПАНИЯТА</div>
+  </div>
+</div>
+
+<!-- ============ EMAILS ============ -->
+<div class="section" id="emails">
+  <div class="page-header">
+    <div class="brand">COBACCO<span>Имейл последователност — 3 имейла</span></div>
+  </div>
+
+  <div class="info-box">
+    <strong>СЕГМЕНТ:</strong> Всички купили SPF 50+ преди повече от 14 дни · Изключете купилите вече Beauty Box
+  </div>
+
+  <!-- EMAIL 1 -->
+  <div class="s-title">Имейл 1 — Ден 1 · Откритие</div>
+  <div class="email-card">
+    <div class="email-meta">
+      <div class="meta-label">Изпращане</div><div class="meta-value">Ден 1 от кампанията · 10:00 сутринта</div>
+      <div class="meta-label">Тема</div><div class="meta-value subject">Твоят SPF работи. А останалото? ☀️</div>
+      <div class="meta-label">Preview</div><div class="meta-value">Имаме нещо специално само за теб като наш клиент...</div>
+    </div>
+    <div class="email-body"><button class="copy-btn" onclick="copyEmail(this, 'e1')">Копирай</button><span id="e1">Здравей,
+
+Радваме се, че имаш нашия SPF 50+ — правилният избор за лятото ✓
+
+Но докато пазиш кожата си от слънцето, останалата грижа е също толкова важна. Почистване, хидратация, регенерация.
+
+Затова подготвихме нещо специално само за нашите SPF клиенти:
+
+<strong>Beauty Skin Routine Box — пълната рутина в 4 продукта.</strong>
+Hydraperfector серум + Resurfacer маска + Barrificator крем + SPF 50+ (вторият вече го имаш 😊)
+
+Нормална цена: €60
+<strong>Само за теб тази седмица: €47.99</strong>
+
+<span class="cta-line">→ Вземи Beauty Box с код ROUTINE20</span>
+
+Офертата е валидна до 22 юни.
+
+С грижа,
+Екипът на COBACCO</span>
+    </div>
+    <div class="email-note">💡 Стратегия: Без натиск — просто логична следваща стъпка. Клиентът вече вярва на бранда.</div>
+  </div>
+
+  <!-- EMAIL 2 -->
+  <div class="s-title">Имейл 2 — Ден 4 · Стойност</div>
+  <div class="email-card">
+    <div class="email-meta">
+      <div class="meta-label">Изпращане</div><div class="meta-value">Ден 4 · 11:00 · само до некупили след Имейл 1</div>
+      <div class="meta-label">Тема</div><div class="meta-value subject">4 продукта. Пълна рутина. €47.99. 🧴</div>
+      <div class="meta-label">Preview</div><div class="meta-value">Ето точно какво влиза в кутията и как да го използваш...</div>
+    </div>
+    <div class="email-body"><button class="copy-btn" onclick="copyEmail(this, 'e2')">Копирай</button><span id="e2">Здравей,
+
+Знаем — понякога трябва да видиш точно какво получаваш.
+
+Ето твоята лятна рутина с Beauty Skin Routine Box:
+
+<strong>🌅 СУТРИН</strong>
+1. Hydraperfector серум (75ml) — дълбока хидратация преди всичко
+2. SPF 50+ (30ml) — защита за деня
+
+<strong>🌙 ВЕЧЕР</strong>
+3. Resurfacer маска/почистващ (100ml) — изглажда и почиства
+4. Barrificator крем (100ml) — регенерация през нощта
+
+4 продукта. Пълна рутина. Сутрин и вечер. €47.99 вместо €60+
+
+<strong>Остават 3 дни с код ROUTINE20</strong>
+
+<span class="cta-line">→ Вземи Beauty Box сега</span>
+
+С грижа,
+Екипът на COBACCO</span>
+    </div>
+    <div class="email-note">💡 Стратегия: Образователен — показва как продуктите се вписват в ежедневието. SPF е вече там, кутията я допълва.</div>
+  </div>
+
+  <!-- EMAIL 3 -->
+  <div class="s-title">Имейл 3 — Ден 7 · Последен шанс</div>
+  <div class="email-card">
+    <div class="email-meta">
+      <div class="meta-label">Изпращане</div><div class="meta-value">Ден 7 · 09:00 · само до некупили</div>
+      <div class="meta-label">Тема</div><div class="meta-value subject">Последен ден — след това €60 🕐</div>
+      <div class="meta-label">Preview</div><div class="meta-value">Днес е последният ден за Beauty Box на €47.99...</div>
+    </div>
+    <div class="email-body"><button class="copy-btn" onclick="copyEmail(this, 'e3')">Копирай</button><span id="e3">Здравей,
+
+Днес е последният ден.
+
+Beauty Skin Routine Box на €47.99 с код ROUTINE20 — само до полунощ.
+
+Утре цената се връща на €60.
+
+4 продукта. Пълна лятна рутина. Безплатна доставка.
+
+<span class="cta-line">→ Последен шанс — вземи Beauty Box</span>
+
+С грижа,
+Екипът на COBACCO</span>
+    </div>
+    <div class="email-note">💡 Стратегия: Максимално кратък. Urgency без излишни думи. Хората вече знаят офертата — нужен е само тласък.</div>
+  </div>
+</div>
+
+<!-- ============ META ============ -->
+<div class="section" id="meta">
+  <div class="page-header">
+    <div class="brand">COBACCO<span>Meta Ads Copy — Ретаргетинг & Студена аудитория</span></div>
+  </div>
+
+  <div class="info-box">
+    <strong>АУДИТОРИЯ 1:</strong> Custom Audience — SPF купувачи от последните 90 дни (качете customer list от Shopify)<br>
+    <strong>АУДИТОРИЯ 2:</strong> Lookalike 1% от Beauty Box купувачи — за нова аудитория
+  </div>
+
+  <div class="s-title">Carousel Ad — Ретаргетинг (SPF купувачи)</div>
+  
+  <div class="carousel-wrap">
+    <div class="carousel-card">
+      <div class="cc-num">01</div>
+      <div class="cc-body">
+        <div class="cc-label">Карта</div>
+        <div class="cc-text"><strong>Вече имаш SPF ✓</strong></div>
+        <div class="cc-sub">Снимка на SPF продукта с тикче</div>
+      </div>
+    </div>
+    <div class="carousel-card">
+      <div class="cc-num">02</div>
+      <div class="cc-body">
+        <div class="cc-label">Карта</div>
+        <div class="cc-text"><strong>Добави Hydraperfector</strong><br>Дълбока хидратация</div>
+        <div class="cc-sub">Снимка на серума</div>
+      </div>
+    </div>
+    <div class="carousel-card">
+      <div class="cc-num">03</div>
+      <div class="cc-body">
+        <div class="cc-label">Карта</div>
+        <div class="cc-text"><strong>Добави Resurfacer</strong><br>Изглажда & почиства</div>
+        <div class="cc-sub">Снимка на маската</div>
+      </div>
+    </div>
+    <div class="carousel-card">
+      <div class="cc-num">04</div>
+      <div class="cc-body">
+        <div class="cc-label">Карта</div>
+        <div class="cc-text"><strong>Добави Barrificator</strong><br>Нощна регенерация</div>
+        <div class="cc-sub">Снимка на крема</div>
+      </div>
+    </div>
+    <div class="carousel-card" style="border-color:rgba(201,168,76,0.5);">
+      <div class="cc-num" style="background:rgba(201,168,76,0.15);color:var(--gold);">05</div>
+      <div class="cc-body">
+        <div class="cc-label">Карта — CTA</div>
+        <div class="cc-text"><strong>Всичките 4 за €47.99</strong><br>Код: ROUTINE20</div>
+        <div class="cc-sub">Beauty Box снимка — удар</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-card">
+    <div class="ad-header">
+      <div class="ad-title">Carousel — Primary Text</div>
+      <div class="ad-tag">Ретаргетинг · SPF купувачи</div>
+    </div>
+    <div class="ad-field">
+      <div class="field-label">Primary Text</div>
+      <div class="field-value primary">Вече имаш нашия SPF ✓
+
+Остана само да завършиш рутината.
+
+Beauty Skin Routine Box — 4 продукта за пълна грижа сутрин и вечер.
+
+Само тази седмица: €47.99 вместо €60
+Код: ROUTINE20</div>
+    </div>
+    <div class="ad-field">
+      <div class="field-label">Headline</div>
+      <div class="field-value headline">Пълната рутина. €47.99.</div>
+    </div>
+    <div class="ad-field">
+      <div class="field-label">Description</div>
+      <div class="field-value">Hydraperfector + Resurfacer + Barrificator + SPF · Само до 22 юни</div>
+    </div>
+    <div class="ad-field">
+      <div class="field-label">CTA Button</div>
+      <div class="field-value cta-val">SHOP NOW</div>
+    </div>
+  </div>
+
+  <div class="s-title">Single Image Ad — Ретаргетинг</div>
+  <div class="ad-card">
+    <div class="ad-header">
+      <div class="ad-title">Single Image Ad A</div>
+      <div class="ad-tag">Директен · Urgency</div>
+    </div>
+    <div class="ad-field">
+      <div class="field-label">Primary Text</div>
+      <div class="field-value primary">Купи SPF от нас? 🌞
+
+Имаме нещо специално за теб.
+
+Beauty Skin Routine Box — пълната лятна рутина в 4 продукта. Сутрин и вечер. Всичко нужно за кожата ти.
+
+€47.99 с код ROUTINE20 — само до 22 юни.</div>
+    </div>
+    <div class="ad-field">
+      <div class="field-label">Headline</div>
+      <div class="field-value headline">От SPF към пълна рутина — €47.99</div>
+    </div>
+    <div class="ad-field">
+      <div class="field-label">CTA Button</div>
+      <div class="field-value cta-val">SHOP NOW</div>
+    </div>
+  </div>
+
+  <div class="s-title">Single Image Ad — Студена аудитория (Lookalike)</div>
+  <div class="ad-card">
+    <div class="ad-header">
+      <div class="ad-title">Single Image Ad B</div>
+      <div class="ad-tag">Студена аудитория · Brand intro</div>
+    </div>
+    <div class="ad-field">
+      <div class="field-label">Primary Text</div>
+      <div class="field-value primary">Лятна рутина за лице в 4 стъпки. 🌿
+
+Почисти. Хидратирай. Защити. Регенерирай.
+
+Beauty Skin Routine Box от COBACCO — 4 пълноразмерни продукта, създадени в България, за резултати, които виждаш.
+
+Специална лятна цена: €47.99 вместо €60
+Код: ROUTINE20 · Само до 22 юни</div>
+    </div>
+    <div class="ad-field">
+      <div class="field-label">Headline</div>
+      <div class="field-value headline">Пълна лятна рутина. 4 продукта. €47.99.</div>
+    </div>
+    <div class="ad-field">
+      <div class="field-label">Description</div>
+      <div class="field-value">Безплатна доставка · Произведено в България · Код ROUTINE20</div>
+    </div>
+    <div class="ad-field">
+      <div class="field-label">CTA Button</div>
+      <div class="field-value cta-val">SHOP NOW</div>
+    </div>
+  </div>
+
+  <div class="s-title">Stories / Reels Copy</div>
+  <div class="ad-card">
+    <div class="ad-header">
+      <div class="ad-title">Stories текст — overlay</div>
+      <div class="ad-tag">Вертикален формат</div>
+    </div>
+    <div class="ad-field">
+      <div class="field-label">Текст на екрана (overlay)</div>
+      <div class="field-value primary" style="font-size:15px;font-weight:600;">4 продукта<br>Пълна рутина<br><span style="color:var(--gold)">€47.99</span><br><span style="font-size:12px;font-weight:400;color:var(--grey)">Код: ROUTINE20 · до 22 юни</span></div>
+    </div>
+    <div class="ad-field">
+      <div class="field-label">Caption</div>
+      <div class="field-value">Лятната рутина, която кожата ти заслужава 🌞 Beauty Box на специална цена само тази седмица. Линк в биото → код ROUTINE20</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ CREATIVES ============ -->
+<div class="section" id="creatives">
+  <div class="page-header">
+    <div class="brand">COBACCO<span>Creative Briefs — 5 идеи за визуали</span></div>
+  </div>
+
+  <div class="info-box">
+    <strong>ФОРМАТИ:</strong> Square 1:1 (Feed) · Vertical 9:16 (Stories/Reels) · Landscape 1.91:1 (Feed широк)<br>
+    <strong>СТИЛ:</strong> Чист, минималистичен, кремав фон или черен — в духа на бранда
+  </div>
+
+  <div class="creative-card">
+    <div class="creative-header">
+      <div class="creative-num">01</div>
+      <div class="creative-info">
+        <div class="creative-name">Флат лей — "Пълна рутина"</div>
+        <div class="creative-type">Feed · Square · Статично изображение</div>
+      </div>
+    </div>
+    <div class="creative-body">
+      <div class="creative-row">
+        <div class="cr-label">Визия</div>
+        <div class="cr-value">4 продукта наредени на кремав/бял фон в ред отляво надясно. Под всеки — малък надпис: "Утро", "Утро", "Вечер", "Вечер". Beauty Box кутията в ъгъла.</div>
+      </div>
+      <div class="creative-row">
+        <div class="cr-label">Текст върху снимката</div>
+        <div class="cr-value">"Пълната рутина. €47.99" — минималистично горе вляво</div>
+      </div>
+      <div class="creative-row">
+        <div class="cr-label">Цветова палитра</div>
+        <div class="cr-value">Кремав фон #F5F0E8 · Черен текст · Златен акцент за цената</div>
+      </div>
+      <div class="creative-row">
+        <div class="cr-label">Защо работи</div>
+        <div class="cr-value">Класически beauty формат. Показва точно какво получаваш. Лесен за производство.</div>
+      </div>
+      <div class="hook-box">"Сутринта. Вечерта. Всеки ден. 4 продукта."</div>
+    </div>
+  </div>
+
+  <div class="creative-card">
+    <div class="creative-header">
+      <div class="creative-num">02</div>
+      <div class="creative-info">
+        <div class="creative-name">Before / After структура</div>
+        <div class="creative-type">Feed · Square или 4:5 · Статично</div>
+      </div>
+    </div>
+    <div class="creative-body">
+      <div class="creative-row">
+        <div class="cr-label">Визия</div>
+        <div class="cr-value">Разделена на две. Ляво: само SPF с надпис "Преди" или "Само SPF". Дясно: всичките 4 продукта с надпис "Пълната рутина". Стрелка или линия между тях.</div>
+      </div>
+      <div class="creative-row">
+        <div class="cr-label">Текст</div>
+        <div class="cr-value">Долу: "Добави останалите 3 — €47.99 с код ROUTINE20"</div>
+      </div>
+      <div class="creative-row">
+        <div class="cr-label">Защо работи</div>
+        <div class="cr-value">Директно говори на SPF купувача. "Вече имаш едното — ето какво пропускаш." Психологически силно.</div>
+      </div>
+      <div class="hook-box">"Вече имаш стъпка 3. Добави останалите 3."</div>
+    </div>
+  </div>
+
+  <div class="creative-card">
+    <div class="creative-header">
+      <div class="creative-num">03</div>
+      <div class="creative-info">
+        <div class="creative-name">Reels / TikTok — "Рутина в 15 секунди"</div>
+        <div class="creative-type">9:16 Vertical · Видео · Stories & Reels</div>
+      </div>
+    </div>
+    <div class="creative-body">
+      <div class="creative-row">
+        <div class="cr-label">Концепция</div>
+        <div class="cr-value">Ускорено видео на ръце, прилагащи всеки продукт в ред. 3-4 секунди на продукт. Текст overlay с всяка стъпка.</div>
+      </div>
+      <div class="creative-row">
+        <div class="cr-label">Структура</div>
+        <div class="cr-value">0-3с: Resurfacer — "Почисти" → 3-6с: Hydraperfector — "Хидратирай" → 6-9с: Barrificator — "Регенерирай" → 9-12с: SPF — "Защити" → 12-15с: Beauty Box + цена</div>
+      </div>
+      <div class="creative-row">
+        <div class="cr-label">Аудио</div>
+        <div class="cr-value">Trending sound или тихо ambient. Без говор — само текст overlay.</div>
+      </div>
+      <div class="creative-row">
+        <div class="cr-label">Защо работи</div>
+        <div class="cr-value">Образователен формат, който се консумира лесно. Показва резултат, не продукт.</div>
+      </div>
+      <div class="hook-box">Hook (първи 2с): "Твоята лятна рутина в 4 стъпки 👇"</div>
+    </div>
+  </div>
+
+  <div class="creative-card">
+    <div class="creative-header">
+      <div class="creative-num">04</div>
+      <div class="creative-info">
+        <div class="creative-name">Price Callout — "€47.99 вместо €60"</div>
+        <div class="creative-type">Feed · Square · Статично · Директен отговор</div>
+      </div>
+    </div>
+    <div class="creative-body">
+      <div class="creative-row">
+        <div class="cr-label">Визия</div>
+        <div class="cr-value">Тъмен/черен фон. Голям текст в центъра. Beauty Box снимка вляво. Цената е главният герой — зачеркнато €60, голямо златно €47.99.</div>
+      </div>
+      <div class="creative-row">
+        <div class="cr-label">Текст елементи</div>
+        <div class="cr-value">~~€60~~ → <strong style="color:var(--gold)">€47.99</strong> · "4 продукта" · "Код: ROUTINE20" · "До 22 юни"</div>
+      </div>
+      <div class="creative-row">
+        <div class="cr-label">Защо работи</div>
+        <div class="cr-value">За студена аудитория. Директен, без обяснения. Цената говори сама. Перфектен за хора, видели бранда, но не купили.</div>
+      </div>
+      <div class="hook-box">"4 продукта за пълна рутина. €47.99. Само тази седмица."</div>
+    </div>
+  </div>
+
+  <div class="creative-card">
+    <div class="creative-header">
+      <div class="creative-num">05</div>
+      <div class="creative-info">
+        <div class="creative-name">UGC стил — "Намерих го"</div>
+        <div class="creative-type">9:16 Vertical · Видео или снимка · Stories</div>
+      </div>
+    </div>
+    <div class="creative-body">
+      <div class="creative-row">
+        <div class="cr-label">Концепция</div>
+        <div class="cr-value">Автентичен стил — като пост на реален клиент. Снимка/видео на кутията на маса или в банята. Без студийна продукция.</div>
+      </div>
+      <div class="creative-row">
+        <div class="cr-label">Caption стил</div>
+        <div class="cr-value">"Най-накрая намерих рутина, която работи 🙌 Целият COBACCO Beauty Box на €47.99 с код ROUTINE20"</div>
+      </div>
+      <div class="creative-row">
+        <div class="cr-label">Визия</div>
+        <div class="cr-value">Кутията на дървена маса, естествена светлина, разопакована с продуктите наредени около нея. Топла, домашна атмосфера.</div>
+      </div>
+      <div class="creative-row">
+        <div class="cr-label">Защо работи</div>
+        <div class="cr-value">UGC стилът има по-висок CTR от студийни снимки в Meta. Изглежда органично — хората спират да го гледат.</div>
+      </div>
+      <div class="hook-box">Hook: "Харча €15/месец за грижа за лице. Ето как 👇"</div>
+    </div>
+  </div>
+
+  <div class="info-box" style="margin-top:8px;">
+    <strong>ПРЕПОРЪКА ЗА ТЕСТВАНЕ:</strong> Пуснете Creative 01 (флат лей) и Creative 04 (price callout) едновременно с по €3/ден всеки. След 3 дни вижте кой има по-нисък CPM и по-висок CTR — него скалирайте.
+  </div>
+</div>
+
+<!-- ============ TIMELINE ============ -->
+<div class="section" id="timeline">
+  <div class="page-header">
+    <div class="brand">COBACCO<span>7-дневен план за изпълнение</span></div>
+  </div>
+
+  <div class="info-box">
+    <strong>✅ ГОТОВО:</strong> Discount код ROUTINE20 е активен в Shopify от днес до 22 юни
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-day">Ден 0 — Днес (15 юни) · Подготовка</div>
+      <div class="tl-actions">
+        ✅ Discount код ROUTINE20 създаден в Shopify<br>
+        → Изтеглете SPF купувачи от Shopify (Customers → филтър по продукт)<br>
+        → Качете листата като Custom Audience в Meta Ads Manager<br>
+        → Подгответе снимките за Creative 01 и 04<br>
+        → Настройте имейл последователността в платформата ви
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-day">Ден 1 — 16 юни · Старт</div>
+      <div class="tl-actions">
+        → <strong>Изпратете Имейл 1</strong> в 10:00 към SPF сегмента<br>
+        → <strong>Пуснете Meta кампанията</strong> — Carousel + Single Image A<br>
+        → Публикувайте <strong>Органичен пост 1</strong> (образователен — 4 стъпки)
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-day">Ден 3 — 18 юни · Проверка</div>
+      <div class="tl-actions">
+        → Проверете Meta резултатите — кой creative работи по-добре<br>
+        → Публикувайте <strong>Органичен пост 2</strong> (социално доказателство/ревю)<br>
+        → Спрете слабия creative, увеличете бюджета на силния
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-day">Ден 4 — 19 юни · Имейл 2</div>
+      <div class="tl-actions">
+        → <strong>Изпратете Имейл 2</strong> в 11:00 — само до некупили след Имейл 1<br>
+        → Проверете дали Meta Custom Audience се доставя коректно
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-day">Ден 6 — 21 юни · Финален тласък</div>
+      <div class="tl-actions">
+        → Публикувайте <strong>Органичен пост 3</strong> (директна оферта + countdown)<br>
+        → Stories с countdown стикер до полунощ на 22 юни
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-day">Ден 7 — 22 юни · Последен шанс</div>
+      <div class="tl-actions">
+        → <strong>Изпратете Имейл 3</strong> в 09:00 — само до некупили<br>
+        → Story сутринта: "Последният ден — до полунощ"<br>
+        → В 23:59 — кодът изтича автоматично (вече настроено в Shopify)
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-day">Ден 8 — 23 юни · Анализ</div>
+      <div class="tl-actions">
+        → Спрете Meta кампанията<br>
+        → Преброете поръчки с код ROUTINE20 в Shopify<br>
+        → Изчислете реален CPO и ROAS<br>
+        → Сравнете с таргет: CPO &lt;€15, ROAS &gt;3x
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:28px;" class="info-box">
+    <strong>МЕТРИКИ ЗА СЛЕДЕНЕ:</strong><br>
+    Имейл: Open rate &gt;25% · CTR &gt;5% · Conversion &gt;15%<br>
+    Meta: CPM &lt;€8 · CTR &gt;1.5% · CPO &lt;€15 · ROAS &gt;3x<br>
+    Shopify: Поръчки с ROUTINE20 · AOV · Нови vs връщащи се клиенти
+  </div>
+</div>
+
+<script>
+  function showTab(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function copyEmail(btn, id) {
+    const text = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Копирано ✓';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Копирай';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+</script>
+</body>
+</html>
