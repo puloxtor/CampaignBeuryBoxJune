@@ -4,9 +4,9 @@ Commit all pending changes, push to the feature branch, open a PR into `main`, a
 
 ## Steps
 
-1. **Stage and commit** all modified files on the current branch (`claude/blissful-shannon-pkf24e`).
+1. **Stage and commit** only `index.html` — never touch `cobacco-campaign.html` or any other file unless explicitly asked.
    - Write a concise commit message describing what changed.
-   - Use `git add <changed files>` then `git commit`.
+   - Use `git add index.html` then `git commit`.
 
 2. **Push** the branch:
    ```
